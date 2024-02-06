@@ -1,0 +1,109 @@
+/* Login.css */
+
+/* Login.css */
+
+/* .login-top {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-image: url('C:\Users\HP\Downloads\cars-life-blog-yaIFQTqnnEw-unsplash.jpg'); 
+  background-size: cover; 
+  background-position: center; 
+  background-repeat: no-repeat; 
+
+} */
+
+.login-top {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden; 
+}
+
+.login-top::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-image: url('C:\Users\HP\Downloads\cars-life-blog-yaIFQTqnnEw-unsplash.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: blur(2px);
+  z-index: -1; }
+
+
+
+.form-main {
+  max-width: 400px;
+  background-color: rgba(203, 199, 139, 0.8); 
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+
+
+  
+  .form-main h2 {
+    color: #050505;
+  }
+  
+  label {
+    display: block;
+    color: #555;
+  }
+  
+  input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+   
+  }
+  
+  .btn-login {
+    width: 100%;
+    padding: 10px;
+    background-color: #040506;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-login:hover {
+    background-color: #f9f6f6;
+    color: black;
+    
+  }
+  
+  p {
+    margin-top: 15px;
+    color: #555;
+  }
+  
+  .link {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .link:hover {
+    text-decoration: underline;
+  }
+  
+  .error-message {
+    color: rgb(142, 18, 18);
+    font-size: 14px;
+    margin-top: 5px;
+  }
+  

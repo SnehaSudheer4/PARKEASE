@@ -1,0 +1,43 @@
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgb(216, 193, 37);
+    border: 1px solid #ccc;
+    padding: 20px;
+    z-index: 999;
+    width: 500px;
+    text-align: left;
+    height: 500px;
+    width: 600px;
+    
+  }
+  
+  .popup-content {
+    position: relative;
+    color: black;
+  
+  }
+  
+  .close-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    color: rgb(4, 0, 0);
+  }
+  
+  .popup h2 {
+    margin-bottom: 10px;
+  }
+  
+  .popup ol {
+    padding-left: 20px;
+  }
+  
+  .popup li {
+    margin-bottom: 10px;
+  }
+  

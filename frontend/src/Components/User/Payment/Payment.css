@@ -1,0 +1,23 @@
+.payment-form {
+    width: 50%; 
+    margin: auto; 
+    padding: 20px; 
+    border: 2px solid #ccc; 
+    border-radius: 10px; 
+    outline: none; 
+  }
+  .payment-form input,
+  .payment-form button {
+    width: 100%; 
+    margin-bottom: 10px;
+  }
+  .pay-now{
+    border: none;
+    background-color: green;
+    color: aliceblue;
+    padding: 5px 10px;
+  cursor: pointer;
+  }
+  .pay-now:hover{
+    background-color: rgb(170, 3, 3);
+  }

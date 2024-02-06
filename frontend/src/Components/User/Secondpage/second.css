@@ -1,0 +1,148 @@
+a{
+    text-decoration: none;
+   }
+   .user-h{
+           width:100vw;
+           height:100vh;
+           background-image: url("");
+           background-position: bottom;
+           background-size: cover;
+           display: flex;
+           align-items: flex-end;
+           justify-content: center;
+
+           
+   }
+   .user-h-content{
+    margin-bottom: 100px;
+    text-align: center;
+    color: rgb(234, 226, 225);
+   }
+  .utwo{
+    font-size: 7vmin;
+  }
+  .line{
+    width:100vmin;
+    height: 4px;
+    background: rgb(252, 252, 252);
+
+  }
+  .uone{
+   font-size: 5vmin;
+   margin-top: 50px;
+   margin-bottom: 50px ;
+  }
+  .ctn{
+    padding: 8px 15px;
+    background: rgb(103, 75, 3);
+    border-radius: 30px;
+    color: rgb(255, 251, 251);
+    
+  }
+  /* --------------- */
+  .scontent{
+    width:90%;
+    margin: 40px auto;
+    display:flex;
+    align-items: center;
+    flex-direction: column;
+
+
+  }
+  .utitle{
+   text-align: center;
+   font-size: 5vmin;
+   color: rgb(165, 100, 9);
+  }
+  
+  .sline{
+    width:90vvmin;
+    height: 4px;
+    background:  rgb(134, 91, 10);
+  }
+  /* -------- */
+  .scard{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; 
+    gap: 10px;
+    padding: 20px; 
+    margin-top: 5%;
+    
+    
+  }
+  
+  .icard {
+    border: 5px solid #ccc;
+    border-radius: 8px;
+    width: 400px; 
+  height: 300px; 
+    padding: 16px;
+    margin: 5px;
+    
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+    margin: 10px; 
+    box-sizing: border-box; 
+    background-image: url("");
+    background-size: cover; 
+  background-position: center; 
+  
+  }
+ .icard:nth-child(2) {
+  background-image: url("");
+  
+}
+  
+  .icard:hover {
+    transform: scale(1.05);
+  }
+  
+.second{  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; 
+  gap: 5px;
+  padding: 20px;
+  
+}
+.jcard{
+  border: 5px solid #ccc;
+  border-radius: 8px;
+  width: 400px; 
+height: 300px; 
+  padding: 16px;
+  margin: 5px;
+  
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+  margin: 10px; 
+  box-sizing: border-box; 
+  background-image: url("");
+  background-size: cover; 
+background-position: center; 
+}
+.jcard:nth-child(2){
+  background-image: url("");
+}
+.jcard:hover{
+  transform: scale(1.05);
+}
+
+  
+  @media (max-width: 768px) {
+    .scard {
+        margin-left: 5%; 
+    }
+    
+    .icard {
+        width: calc(50% - 7px); 
+        
+    }
+    .second{
+      margin-left: 5%;
+    }
+    .jcard{
+      width: calc(50% - 5px); 
+    }
+  }
+  

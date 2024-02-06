@@ -1,0 +1,42 @@
+
+
+.navbar-brand {
+  margin-left: 20px; 
+}
+
+.nav-icon {
+  cursor: pointer;
+}
+
+.navbar-nav {
+  list-style-type: none;
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+.nav-item {
+  margin-right: 10px;
+}
+
+.nav-link {
+  color: #333; /* Adjust link color */
+}
+
+.show {
+  display: flex;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.user-email {
+  margin-left: 5px;
+}
+
+.logout-company {
+  color: #f00;
+}

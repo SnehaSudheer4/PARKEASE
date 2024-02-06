@@ -1,0 +1,74 @@
+.security-form {
+  margin-top: 50px;
+  border: 1px solid #ccc;
+  max-width: 600px; 
+  margin-left: auto;
+  margin-right: auto;
+  padding: 20px;
+}
+
+  .security-form h2 {
+    text-align: center;
+  }
+  
+  .security-form form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .security-form label {
+    margin-bottom: 10px;
+  }
+  
+  .security-form input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    box-sizing: border-box;
+  }
+  
+  /* .security-form button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  } */
+  .reserve-submit{
+    border: none;
+    background-color:green;
+    color: #fff;
+    padding: 10px;
+  cursor: pointer;
+  }
+
+  .reserve-submit:hover{
+    background-color: rgb(148, 29, 29);
+  }
+
+  
+.button-checkin {
+  background-color: #0d4602;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+.button-checkout{
+  background-color: #871313;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.button-checkout:hover,
+.button-checkin:hover {
+  background-color: #080808;
+  color: rgb(255, 255, 255);
+}
+  

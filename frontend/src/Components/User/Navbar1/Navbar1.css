@@ -1,0 +1,132 @@
+/* .user-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #f8f1f1;
+    padding: 10px;
+    z-index: 1000; 
+    display: flex;
+
+  justify-content: space-between;
+  } */
+  /* .user-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #f8f1f1;
+    padding: 10px;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .nav-items {
+    display: flex;
+    align-items: center;
+    right: 10%;
+
+  }
+ 
+   .logout-user {
+    background-color: #3498db;
+    color: #f9f4f4;
+    border: none;
+    border-radius: 2px;
+    margin-left: auto; 
+  }
+  
+  .logout-user:hover {
+    background-color: rgb(5, 5, 5);
+    color: #f8f1f1;
+  }
+  
+  .user-info-box {
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+  
+  .user-email {
+    color: black;
+    font-weight: bold;
+    font-size: 16px;
+    text-align: center; 
+    margin-left: 10px;
+    margin-right: 10px; 
+  } 
+  .user-info h7 {
+    font-weight: bold;
+  }
+ */
+/* Navbar1.css */
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+}
+
+.navbar-brand {
+  margin-right: auto; 
+}
+
+.navbar-nav {
+  display: flex;
+  align-items: center;
+  gap: 10px; 
+  margin-left: 16px;
+ 
+}
+
+.nav-item {
+  list-style: none; 
+  display: grid;
+  margin-right: 10px;
+  justify-content: space-between;
+  grid-template-columns: repeat(5,auto);
+  
+
+
+}
+
+.nav-link {
+  text-decoration: none;
+  color: black;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  
+}
+
+.nav-link:hover {
+  color: blue; 
+}
+.navbar {
+  position: relative; 
+}
+
+.navbar-nav {
+  position: absolute;
+  top: 100%; 
+  right: 0; 
+  display: none; 
+  background-color: white; 
+  border: 1px solid #ccc;
+  border-radius: 5px; 
+  padding: 10px; 
+  z-index: 999; 
+}
+
+.navbar-nav.show {
+  display: flex;
+}
+
+.nav-icon {
+  cursor: pointer;
+  width: 70px;
+  font-size: 1.5em;
+  color: white;
+}

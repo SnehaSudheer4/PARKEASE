@@ -1,0 +1,78 @@
+/* 
+   .view-container {
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  .view-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .view-table th{
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+    color: rgb(249, 9, 9);
+  }
+
+
+  .view-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+    color: black;
+
+  }
+  
+  .view-table th {
+    background-color: #f2f2f2;
+  }
+  
+  .view-table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  .view-table tbody tr:hover {
+    background-color: #ddd;
+  }
+   */
+
+   .view-container {
+    padding: 20px;
+  }
+  
+  .reservation-card {
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+  }
+  
+  .user-info, .reservation-details {
+    flex-basis: 45%;
+  }
+  
+  .user-info {
+    background-color: #f0f0f0;
+    padding: 20px;
+    border-radius: 10px;
+  }
+  
+  .reservation-details {
+    padding-left: 20px;
+  }
+  
+  .user-info p, .reservation-details p {
+    margin: 10px 0;
+  }
+  
+  .user-info p strong, .reservation-details p strong {
+    margin-right: 5px;
+    color: #333;
+  }
+  
