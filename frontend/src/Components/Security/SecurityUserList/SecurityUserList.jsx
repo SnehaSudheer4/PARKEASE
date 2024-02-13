@@ -3,11 +3,15 @@ import {checkInUser,checkOutUser,getSecurityUserList,} from '../../../service/Se
 import Confirmation from './Confirmation';
 import { useSelector } from 'react-redux';
 import { selectSecurity } from '../../../Features/setSecurity';
+import Search from '../../User/Searchparking/Search';
+// export { getTotalReservations } from './SecurityUserList'; 
 
 const SecurityUserList = () => {
   const [userList, setUserList] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  // const [twoWheelerList, setTwoWheelerList] = useState([]);
+  // const [fourWheelerList, setFourWheelerList] = useState([]);
   const loggedInSecurity=useSelector(selectSecurity)
 
   const fetchSecurityUserList = async (companyName) => {
@@ -18,6 +22,10 @@ const SecurityUserList = () => {
       console.log(response, '88888888');
       const security = response.data || [];
       setUserList(security);
+      // const twoWheelerUsers = security.filter(user => user.vehicleType === 'twoWheeler');
+      // const fourWheelerUsers = security.filter(user => user.vehicleType === 'fourWheeler');
+      // setTwoWheelerList(twoWheelerUsers);
+      // setFourWheelerList(fourWheelerUsers);
     } catch (error) {
       console.error('Error fetching user list:', error.message);
     }
@@ -60,12 +68,14 @@ const SecurityUserList = () => {
     }
     setShowModal(false);
   };
+  const getTotalReservations = () => userList.length;
 
   return (
     <div>
       <div className="us">
         <div className="user-container">
           <h2>User List</h2>
+          <div>Total Reservations: {getTotalReservations()}</div>
           <table border={1} className="table table-striped">
             <thead>
               <tr>
@@ -125,8 +135,10 @@ const SecurityUserList = () => {
           vehicleType={selectedUser.vehicleType}
         />
       )}
+          <Search getTotalReservations={getTotalReservations} />
     </div>
   );
 };
-
+// export { getTotalReservations } from './SecurityUserList'; 
 export default SecurityUserList;
+

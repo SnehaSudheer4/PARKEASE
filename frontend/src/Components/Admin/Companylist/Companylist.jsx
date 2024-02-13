@@ -5,8 +5,6 @@ import './companylist.css';
 
 const Companylist = () => {
     const [companyList, setCompanyList] = useState([]);
-
-  // Move the fetchUserList function outside of the useEffect
   const fetchCompanyList = async () => {
     try {
       const response = await getAdminCompanyList();

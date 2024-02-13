@@ -19,11 +19,9 @@ const adminLogin = async (req, res) => {
     console.log(req.body, '@@@@@@');
     const admin = await Admin.findOne({ email: email });
     console.log(admin, '#####');
-
     if (admin) {
       const auth = await bcrypt.compare(password, admin.password);
       console.log(auth);
-
       if (auth) {
         const token = createAdminToken(admin._id);
         console.log('Admin logged in successfully. Token:', token);
@@ -145,17 +143,11 @@ const blockCompany = async (req, res) => {
 const unblockCompany = async (req, res) => {
   try {
     const { companyId } = req.params;
-    const company = await Company.findByIdAndUpdate(
-      companyId,
-      { isBlocked: false },
-      { new: true }
-    );
+    const company = await Company.findByIdAndUpdate(companyId, { isBlocked: false },{ new: true });
     if (!company) {
       return res.status(404).json({ message: 'Company not found' });
     }
-    res
-      .status(200)
-      .json({ message: 'Company unblocked successfully', company });
+    res.status(200).json({ message: 'Company unblocked successfully', company });
   } catch (error) {
     console.error('Error unblocking company:', error.message);
     res.status(500).json({ message: 'Internal Server Error' });

@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { getSlotsForSecurity } from '../../../service/Securityapi';
 import { useSelector } from 'react-redux';
 import { selectSecurity } from '../../../Features/setSecurity';
-import './viewslot.css'
+import './viewslot.css';
 
-const ViewSlot = () => {
+  const ViewSlot = () => {
   const [slots, setSlots] = useState([]);
-  const logginedSecurity = useSelector(selectSecurity); 
+  const logginedSecurity = useSelector(selectSecurity);
 
   const fetchData = async () => {
     try {
@@ -38,13 +38,19 @@ const ViewSlot = () => {
           </tr>
         </thead>
         <tbody>
-          {slots.map(slot => (
+          {slots.map((slot) => (
             <tr key={slot._id}>
               <td>{slot && slot.companyName}</td>
               <td>{slot && slot.email}</td>
               <td>{slot && slot.place}</td>
-              <td>{slot && slot.twoWheeler && slot.twoWheeler.booked} / {slot && slot.twoWheeler && slot.twoWheeler.free}</td>
-              <td>{slot && slot.fourWheeler && slot.fourWheeler.booked} / {slot && slot.fourWheeler && slot.fourWheeler.free}</td>
+              <td>
+                {slot && slot.twoWheeler && slot.twoWheeler.booked} /{' '}
+                {slot && slot.twoWheeler && slot.twoWheeler.free}
+              </td>
+              <td>
+                {slot && slot.fourWheeler && slot.fourWheeler.booked} /{' '}
+                {slot && slot.fourWheeler && slot.fourWheeler.free}
+              </td>
             </tr>
           ))}
         </tbody>

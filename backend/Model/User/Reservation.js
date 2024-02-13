@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Slot =require('../Company/Slot')
+const Slot = require('../Company/Slot');
 
 const reservationSchema = new mongoose.Schema({
   name: {
@@ -23,15 +23,15 @@ const reservationSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  vehicleType: {  
+  vehicleType: {
     type: String,
     required: true,
   },
   arrivingTime: {
     type: Date,
-    default: Date.now, 
+    default: Date.now,
   },
-  companyName: { 
+  companyName: {
     type: String,
     required: true,
   },
@@ -39,22 +39,23 @@ const reservationSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  
+  orderId: { type: String, required: true },
+  paymentId: { type: String, required: true },
+  amount: { type: Number, require: true },
 });
 
-reservationSchema.post('save', async function () {
-  try {
-    // Update slot's free and booked numbers based on the vehicle type
-    if (this.vehicleType === 'twoWheeler') {
-      await Slot.findOneAndUpdate({}, { $inc: { 'twoWheeler.free': -1, 'twoWheeler.booked': 1 } });
-    } else if (this.vehicleType === 'fourWheeler') {
-      await Slot.findOneAndUpdate({}, { $inc: { 'fourWheeler.free': -1, 'fourWheeler.booked': 1 } });
-    }
-  } catch (error) {
-    console.error('Error updating slot data:', error);
-    throw error; // Throw the error to be caught and handled elsewhere
-  }
-});
+// reservationSchema.post('save', async function () {
+//   try {
+//    // Update slot's free and booked numbers based on the vehicle type
+//     const vehicleType = this.vehicleType;
+//     if (vehicleType === 'twoWheeler' || vehicleType === 'fourWheeler') {
+//       await Slot.updateFreeSpace(vehicleType);
+//     }
+//   } catch (error) {
+//     console.error('Error updating slot data:', error);
+//     throw error;
+//   }
+// });
 const Reservation = mongoose.model('Reservation', reservationSchema);
 
 module.exports = Reservation;

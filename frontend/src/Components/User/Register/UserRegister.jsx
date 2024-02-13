@@ -3,7 +3,7 @@ import React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import './Register.css';
-import { userSignUp } from '../../../service/Userapi';
+import { userRegister,  } from '../../../service/Userapi';
 import { useNavigate } from 'react-router-dom';
 
 const validationSchema = Yup.object().shape({
@@ -43,10 +43,9 @@ const UserRegister = () => {
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       try {
-        await userSignUp(values);
+        await userRegister(values);
         console.log('User registered successfully');
         navigate('/UserLogin');
-        
       } catch (error) {
         console.error('Error registering user:', error.message);
       }

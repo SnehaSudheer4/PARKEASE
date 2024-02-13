@@ -67,6 +67,7 @@
 // };
 
 // export default SecurityNav;
+
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -100,9 +101,7 @@ const SecurityNav = () => {
         setShowNavItems(false);
       }
     }
-
     document.addEventListener('mousedown', handleClickOutside);
-
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };

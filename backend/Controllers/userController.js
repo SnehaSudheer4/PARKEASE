@@ -3,14 +3,10 @@ const bcrypt = require('bcrypt');
 const Company = require('../Model/Company/Company');
 const jwt = require('jsonwebtoken');
 const maxAge = 3 * 24 * 60 * 60;
-const Reservation=require('../Model/User/Reservation')
+const Reservation = require('../Model/User/Reservation');
 const Razorpay = require('razorpay');
-const Payment=require('../Model/User/Payment')
-const Slot =require('../Model/Company/Slot')
-
-
-
-
+const Payment = require('../Model/User/Payment');
+const Slot = require('../Model/Company/Slot');
 
 //jwt
 const createToken = (id) => {
@@ -18,6 +14,7 @@ const createToken = (id) => {
     expiresIn: maxAge,
   });
 };
+
 
 const userSignUp = async (req, res) => {
   try {
@@ -49,17 +46,14 @@ const userSignUp = async (req, res) => {
   }
 };
 
-
-
-
-const  userLogin=async(req,res)=>{
+const userLogin = async (req, res) => {
   try {
-    const {email,password}=req.body;
+    const { email, password } = req.body;
     console.log(req.body, '@@@@@@');
-    const user = await User.findOne({ email :email});
+    const user = await User.findOne({ email: email });
     console.log(user, '#####');
-    if(user){
-      const auth = await bcrypt.compare(password,user.password);
+    if (user) {
+      const auth = await bcrypt.compare(password, user.password);
       console.log(auth);
       if (auth) {
         const token = createToken(user._id);
@@ -75,12 +69,11 @@ const  userLogin=async(req,res)=>{
     } else {
       res.json({ message: 'user not found', status: false });
     }
-    }catch (error) {
-      console.error('Error logging in:', error.message);
-      res.status(500).json({ message: 'Internal Server Error' });
-    }
-  };
-  
+  } catch (error) {
+    console.error('Error logging in:', error.message);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
 
 
 const handleSearch = async (req, res) => {
@@ -88,17 +81,17 @@ const handleSearch = async (req, res) => {
     const { query } = req.query;
     const regex = new RegExp(query, 'i');
     const companies = await Slot.find({ companyName: regex });
-    const companyData = companies.map(company => ({
-      place:company.place,
+    const companyData = companies.map((company) => ({
+      place: company.place,
       companyName: company.companyName,
       twoWheeler: {
         booked: company.twoWheeler.booked,
-        free: company.twoWheeler.free
+        free: company.twoWheeler.free,
       },
       fourWheeler: {
         booked: company.fourWheeler.booked,
-        free: company.fourWheeler.free
-      }
+        free: company.fourWheeler.free,
+      },
     }));
     res.status(200).json(companyData);
   } catch (error) {
@@ -107,35 +100,9 @@ const handleSearch = async (req, res) => {
   }
 };
 
-
-
 // const createReservation = async (req, res) => {
 //   try {
-//     const { name, email, phone, date,vehicleNumber,vehicleType,arrivingTime,companyName} = req.body;
-//     const reservation = new Reservation({
-//       name,
-//       email,
-//       phone,
-//       date,
-//       vehicleNumber,
-//       vehicleType,
-//       arrivingTime,
-//       companyName,
-//       isCheckedIn: false, 
-//     });
-//     await reservation.save();
-//     res.status(201).json({ message: 'Reservation created successfully', reservation });
-//   } catch (error) {
-//     console.error('Error creating reservation:', error.message);
-//     res.status(500).json({ message: 'Internal Server Error' });
-//   }
-// };
-
-// const createReservation = async (req, res) => {
-//   try {
-//     console.log('Creating reservation...');
-//     const { name, email, phone, date, vehicleNumber, vehicleType, arrivingTime, companyName } = req.body;
-//     console.log('Received reservation data:', req.body);
+//     const { name, email, phone, date,vehicleNumber, vehicleType,arrivingTime, companyName,} = req.body;
 //     const reservation = new Reservation({
 //       name,
 //       email,
@@ -148,10 +115,9 @@ const handleSearch = async (req, res) => {
 //       isCheckedIn: false,
 //     });
 //     await reservation.save();
-//     console.log('Reservation saved:', reservation);
-//     await Slot.updateFreeSpace(vehicleType);
-//     console.log('Slot updated');
-//     res.status(201).json({ message: 'Reservation created successfully', reservation });
+//     res
+//       .status(201)
+//       .json({ message: 'Reservation created successfully', reservation });
 //   } catch (error) {
 //     console.error('Error creating reservation:', error.message);
 //     res.status(500).json({ message: 'Internal Server Error' });
@@ -159,17 +125,25 @@ const handleSearch = async (req, res) => {
 // };
 
 
-const createReservation = async (req, res) => {
+const userHeader = async (req, res) => {
   try {
-    const { name, email, phone, date, vehicleNumber, vehicleType, arrivingTime, companyName } = req.body;
+    const user = req.user;
+    res.json({ user: user, status: true });
+  } catch (error) {
+    res.json({ message: 'internal server error', status: false });
+  }
+};
 
-    // Check if all required fields are provided
-    if (!name || !email || !phone || !date || !vehicleNumber || !vehicleType || !arrivingTime || !companyName) {
-      return res.status(400).json({ error: 'All fields are required' });
-    }
-
-    // Create the reservation
-    const reservation = new Reservation({
+const razorpay = new Razorpay({
+  key_id: process.env.RAZORPAY_API_KEY,
+  key_secret: process.env.RAZORPAY_API_SECRET,
+});
+const createPaymentAndReservation = async (req, res) => {
+  try {
+    // Destructure the request body
+    const {
+      amount,
+      companyName,
       name,
       email,
       phone,
@@ -177,90 +151,119 @@ const createReservation = async (req, res) => {
       vehicleNumber,
       vehicleType,
       arrivingTime,
-      companyName,
-      isCheckedIn: false,
-    });
+    } = req.body;
 
-    // Save the reservation to the database
-    await reservation.save();
-
-    // Update slot counts based on the vehicle type
-    await Slot.findOneAndUpdate(
-      {}, // Update all slots, assuming there's only one document for slots
-      {
-        $inc: {
-          [`$${vehicleType}.free`]: -1, // Decrease free count by 1
-          [`$${vehicleType}.booked`]: 1, // Increase booked count by 1
-        },
-      }
-    );
-
-    // Respond with success message and the created reservation
-    res.status(201).json({ message: 'Reservation created successfully', reservation });
-  } catch (error) {
-    console.error('Error creating reservation:', error.message);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-};
-
-
-
-
-
-const userHeader=async(req,res)=>{
-  try {
-    const user=req.user;
-    res.json({user:user,status:true})
-  } catch (error) {
-    res.json({message:'internal server error',status:false}) 
-  }
-}
-
-const razorpay = new Razorpay({
-  key_id: process.env.RAZORPAY_API_KEY,
-  key_secret: process.env.RAZORPAY_API_SECRET,
-});
-
-
-const createPayment = async (req, res) => {
-  try {
-    const { amount, companyName, Name } = req.body;
-    if (isNaN(amount) || amount <= 0 || !companyName || !Name) {
-      console.error('Invalid amount, companyName, or Name');
-      return res.status(400).json({ error: 'Invalid amount,  companyName, or Name'});
+    // Validate input data
+    if (
+      isNaN(amount) ||
+      amount <= 0 ||
+      !companyName ||
+      !name ||
+      !email ||
+      !phone ||
+      !date ||
+      !vehicleNumber ||
+      !vehicleType ||
+      !arrivingTime
+    ) {
+      console.error('Invalid input data');
+      return res.status(400).json({ error: 'Invalid input data' });
     }
+
+    // Convert arrivingTime to a Date object
+    const arrivingTimeDate = new Date(arrivingTime);
+
+    // Check if the conversion resulted in a valid date
+    if (isNaN(arrivingTimeDate.getTime())) {
+      console.error('Invalid arrivingTime:', arrivingTime);
+      return res.status(400).json({ error: 'Invalid arrivingTime' });
+    }
+
+    // Create payment
     const payment_capture = 1;
     const currency = 'INR';
     const order_id = Date.now().toString();
-
     const orderOptions = {
-      amount: amount * 100, 
+      amount: amount * 100,
       currency,
       payment_capture,
       receipt: 'order_' + order_id,
     };
-    console.log('Order Options:', orderOptions);
     const response = await razorpay.orders.create(orderOptions);
-    console.log('Razorpay Response:', response);
+
     if (response.error) {
       console.error('Razorpay Error:', response.error);
       return res.status(500).json({ error: 'Razorpay Error' });
     }
-    const newPayment = new Payment({
+
+    // Create reservation with payment details
+    const reservation = new Reservation({
+      name,
+      email,
+      phone,
+      date,
+      vehicleNumber,
+      vehicleType,
+      arrivingTime: arrivingTimeDate, // Assign the Date object
+      companyName,
+      isCheckedIn: false,
       orderId: response.id,
       paymentId: response.id,
       amount: amount,
-      companyName: companyName,
-      Name: Name,
     });
-    await newPayment.save();
-    res.json(response);
+    await reservation.save();
+
+    res.json({
+      message: 'Payment and Reservation created successfully',
+      reservation,
+    });
   } catch (error) {
-    console.error('Error in createPayment:', error);
+    console.error('Error in createPaymentAndReservation:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
 
+
+
+// const createPayment = async (req, res) => {
+//   try {
+//     const { amount, companyName, Name } = req.body;
+//     if (isNaN(amount) || amount <= 0 || !companyName || !Name) {
+//       console.error('Invalid amount, companyName, or Name');
+//       return res
+//         .status(400)
+//         .json({ error: 'Invalid amount,  companyName, or Name' });
+//     }
+//     const payment_capture = 1;
+//     const currency = 'INR';
+//     const order_id = Date.now().toString();
+//     const orderOptions = {
+//       amount: amount * 100,
+//       currency,
+//       payment_capture,
+//       receipt: 'order_' + order_id,
+//     };
+//     console.log('Order Options:', orderOptions);
+//     const response = await razorpay.orders.create(orderOptions);
+//     console.log('Razorpay Response:', response);
+//     if (response.error) {
+//       console.error('Razorpay Error:', response.error);
+//       return res.status(500).json({ error: 'Razorpay Error' });
+//     }
+//     const newPayment = new Payment({
+//       orderId: response.id,
+//       paymentId: response.id,
+//       amount: amount,
+//       companyName: companyName,
+//       Name: Name,
+//     });
+//     await newPayment.save();
+//     res.json(response);
+//   } catch (error) {
+//     console.error('Error in createPayment:', error);
+//     res.status(500).json({ error: 'Internal Server Error' });
+//   }
+// };
 
 const getUserReservations = async (req, res) => {
   try {
@@ -273,5 +276,44 @@ const getUserReservations = async (req, res) => {
   }
 };
 
+const makeReservation = async (req, res) => {
+  const { vehicleType } = req.body;
+  console.log('Received vehicleType:', vehicleType);
+  try {
+    await Slot.updateFreeSpace(vehicleType);
+    res.status(200).json({ message: 'Reservation made successfully.' });
+  } catch (error) {
+    console.error('Error making reservation:', error);
+    res.status(500).json({ error: 'An error occurred while making the reservation.' });
+  }
+};
 
-module.exports = { userSignUp, userLogin, handleSearch ,userHeader,createReservation,getUserReservations,createPayment};
+// const makeReservation = async (req, res) => {
+//   const { vehicleType } = req.body;
+//   console.log('Received vehicleType:', vehicleType);
+//   try {
+//     // Check if vehicleType is valid
+//     if (vehicleType !== 'twoWheeler' && vehicleType !== 'fourWheeler') {
+//       throw new Error('Invalid vehicle type');
+//     }
+//     // Update slot's booked count based on the vehicle type
+//     await Slot.updateFreeSpace(vehicleType);
+//     res.status(200).json({ message: 'Reservation made successfully.' });
+//   } catch (error) {
+//     console.error('Error making reservation:', error);
+//     res.status(500).json({ error: 'An error occurred while making the reservation.' });
+//   }
+// };
+
+
+module.exports = {
+  userSignUp,
+  userLogin,
+  handleSearch,
+  userHeader,
+  // createReservation,
+  getUserReservations,
+  // createPayment,
+  makeReservation,
+  createPaymentAndReservation
+};

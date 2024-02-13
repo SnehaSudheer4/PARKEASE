@@ -133,7 +133,6 @@ const AddCompany = () => {
               {formik.touched.password && formik.errors.password && (
                 <div className="error-message">{formik.errors.password}</div>
               )}
-
               <label>Confirm Password</label>
               <input
                 type="password"

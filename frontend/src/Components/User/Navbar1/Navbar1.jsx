@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './Navbar1.css';
@@ -81,12 +80,6 @@ const Navbar1 = () => {
           </Button>
         </li>
         <li className="nav-item">
-          <Button variant="link" className="nav-link" onClick={handleLogout}>
-            <i className="fas fa-sign-out-alt"  style={{color:'red'}}></i>
-            <span style={{color:'red'}}>Logout</span>
-          </Button>
-        </li>
-        <li className="nav-item">
           <OverlayTrigger
             trigger="click"
             placement="bottom"
@@ -103,6 +96,13 @@ const Navbar1 = () => {
             </Button>
           </OverlayTrigger>
         </li>
+        <li className="nav-item">
+          <Button variant="link" className="nav-link" onClick={handleLogout}>
+            <i className="fas fa-sign-out-alt"  style={{color:'red'}}></i>
+            <span style={{color:'red'}}>Logout</span>
+          </Button>
+        </li>
+       
       </ul>
     </nav>
   );

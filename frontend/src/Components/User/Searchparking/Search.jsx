@@ -2,15 +2,17 @@ import React, { useState } from 'react';
 import { handleSearch } from '../../../service/Userapi';
 import './search.css';
 import { useNavigate } from 'react-router-dom';
+// import { getTotalReservations } from './SecurityUserList'; // Import the getTotalReservations function
 
-const Search = () => {
+const Search = ({ getTotalReservations }) => {
+  console.log(getTotalReservations,"00000");
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const navigate = useNavigate('');
 
   const onSearch = async (searchQuery) => {
     try {
-      if (searchQuery.trim() === '') {
+      if (searchQuery.trim() === ''){
         setSuggestions([]);
         return;
       }
@@ -63,13 +65,16 @@ const Search = () => {
                 <div className="suggestion-card">
                   <div className="suggestion-details">
                     <h3 className="company-name">{company.companyName}</h3>
-                    <p style={{color:'black'}}>Two-Wheeler Free: {company.twoWheeler.free}</p>
+                    <p style={{color:'black'}}>Two-Wheeler Free: {company.twoWheeler.free }</p>
                     <p style={{color:'black'}}>Four-Wheeler Free: {company.fourWheeler.free}</p>
+                    <div>Total Reservations: {getTotalReservations && getTotalReservations()} </div>
                   </div>
                 </div>
               </li>
             ))}
           </ul>
+          {/* <div>Total Reservations: {getTotalReservations && getTotalReservations} </div> */}
+
         </div>
       </div>
     </div>

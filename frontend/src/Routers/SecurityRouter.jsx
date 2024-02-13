@@ -4,6 +4,7 @@ import SecurityForm from '../Components/Security/SecurityForm/SecurityForm';
 import SecurityLoginPage from '../Pages/Security/SecurityLoginPage';
 import SecurityUserListpage from '../Pages/Security/SecurityUserListpage';
 import SecuritySlot from '../Pages/Security/SecuritySlot';
+
 // import SecurityHomePage from '../Pages/Security/SecurityHomePage';
 
 const SecurityRouter = () => {
@@ -14,6 +15,7 @@ const SecurityRouter = () => {
         <Route path="/SecurityForm" element={<SecurityForm />} />
         <Route path="/Securityuserlist" element={<SecurityUserListpage />} />
         <Route path='/Securityslot' element={<SecuritySlot/>}/>
+       
       </Routes>
     </div>
   );

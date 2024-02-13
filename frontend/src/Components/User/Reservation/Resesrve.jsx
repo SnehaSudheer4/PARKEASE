@@ -1,23 +1,20 @@
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import './Reserve.css';
 import { createReservation } from '../../../service/Userapi';
+import './Reserve.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
 import { useSelector } from 'react-redux';
 import { selectUser } from '../../../Features/setUser';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 const Reserve = () => {
   const [reservationError, setReservationError] = useState(null);
   const loggedInUser = useSelector(selectUser);
   const location = useLocation();
   const companyNameFromSearch = location.state?.companyName || '';
-  const navigate = useNavigate('');
-
   const vehicleTypes = ['Two Wheeler', 'Four Wheeler'];
 
   const formik = useFormik({
@@ -30,6 +27,7 @@ const Reserve = () => {
       vehicleType: '',
       companyName: companyNameFromSearch,
       arrivingTime: '',
+      amount: '',
     },
     validationSchema: Yup.object({
       name: Yup.string().required('Name is required'),
@@ -42,37 +40,22 @@ const Reserve = () => {
         .required('Vehicle number is required')
         .matches(/^[a-zA-Z0-9]*$/, 'Invalid format'),
       companyName: Yup.string().required('Company name is required'),
-      // vehicleType: Yup.string().required('Vehicle type is required'),
-      arrivingTime: Yup.string()
-        // .required(new Date(), 'Arriving time must be after the current time')
-        .required('Arriving time is required'),
+      arrivingTime: Yup.string().required('Arriving time is required'),
+      amount: Yup.number().required('Amount is required'), // Validate amount
     }),
 
     onSubmit: async (values, { setSubmitting }) => {
       try {
-        const dateTimeString = `${formik.values.date
-          .toISOString()
-          .slice(0, 10)}T${formik.values.arrivingTime}`;
-        const formattedArrivingTime = new Date(dateTimeString);
-        if (isNaN(formattedArrivingTime)) {
-          throw new Error('Invalid arriving time');
-        }
-        const reservationData = {
-          ...values,
-          arrivingTime: formattedArrivingTime,
-          vehicleType: values.vehicleType.toLowerCase(),
-        };
-        await createReservation(reservationData);
-        toast.success('Reservation successfully saved');
-        setSubmitting(false);
-        navigate('/Payment');
+        handlePayment(values);
       } catch (error) {
+        console.error('Error in form submission:', error);
         setReservationError(error.message);
-        toast.error('Error saving reservation');
+        toast.error('Error submitting reservation');
         setSubmitting(false);
       }
     },
   });
+
   const formatDate = (date) => {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -80,9 +63,39 @@ const Reserve = () => {
     return `${year}-${month}-${day}`;
   };
 
+  const handlePayment = async (values) => {
+    const arrivingTime = new Date();
+    const [hours, minutes] = values.arrivingTime.split(':');
+    arrivingTime.setHours(parseInt(hours));
+    arrivingTime.setMinutes(parseInt(minutes));
+
+    values.arrivingTime = arrivingTime;
+    const razorpayOptions = {
+      key: 'rzp_test_40vpkpbtCN7tjn',
+      amount: values.amount * 100,
+      currency: 'INR',
+      name: 'Parkease',
+      description: 'Reservation',
+      order_id: values.order_id,
+      handler: function (response) {
+        console.log('Payment success:', response);
+        createReservation(values);
+        toast.success('Reservation successfully saved');
+        formik.resetForm();
+      },
+      prefill: {
+        name: loggedInUser?.username || '',
+        email: loggedInUser?.email || '',
+        contact: loggedInUser?.phoneNumber || '',
+      },
+    };
+    const rzp = new window.Razorpay(razorpayOptions);
+    rzp.open();
+  };
+
   return (
     <div className="reservation-container">
-      <h2>Reservation Form</h2>
+      <h2>Reservation & Payment Form</h2>
       <form className="reservation-form" onSubmit={formik.handleSubmit}>
         <div>
           <label>
@@ -179,7 +192,6 @@ const Reserve = () => {
             )}
           </label>
         </div>
-
         <div>
           <label>
             Vehicle number:
@@ -215,6 +227,22 @@ const Reserve = () => {
             )}
           </label>
         </div>
+        <div>
+          <label>
+            Amount:
+            <input
+              placeholder="Enter amount"
+              type="number"
+              name="amount"
+              value={formik.values.amount}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+            {formik.touched.amount && formik.errors.amount && (
+              <div className="error">{formik.errors.amount}</div>
+            )}
+          </label>
+        </div>
         <button
           type="submit"
           disabled={formik.isSubmitting}
@@ -223,7 +251,6 @@ const Reserve = () => {
         </button>
       </form>
       {reservationError && <div>{reservationError}</div>}
-
       <ToastContainer />
     </div>
   );
