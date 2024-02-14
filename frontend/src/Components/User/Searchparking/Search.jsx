@@ -3,16 +3,15 @@ import { handleSearch } from '../../../service/Userapi';
 import './search.css';
 import { useNavigate } from 'react-router-dom';
 
-
 const Search = ({ getTotalReservations }) => {
-  console.log(getTotalReservations,"00000");
+  console.log(getTotalReservations, '00000');
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const navigate = useNavigate('');
 
   const onSearch = async (searchQuery) => {
     try {
-      if (searchQuery.trim() === ''){
+      if (searchQuery.trim() === '') {
         setSuggestions([]);
         return;
       }
@@ -41,7 +40,6 @@ const Search = ({ getTotalReservations }) => {
   };
 
   const onSuggestionClick = (company) => {
-    // navigate('/Reserve');
     navigate('/Reserve', { state: { companyName: company.companyName } });
   };
 
@@ -49,7 +47,7 @@ const Search = ({ getTotalReservations }) => {
     <div>
       <div className="body-search">
         <div>
-          <h1 className="title">LOCATION</h1>
+          <h1 className="title">SEARCH LOCATION HERE</h1>
           <div className="search-container">
             <input
               className="search-input"
@@ -65,16 +63,17 @@ const Search = ({ getTotalReservations }) => {
                 <div className="suggestion-card">
                   <div className="suggestion-details">
                     <h3 className="company-name">{company.companyName}</h3>
-                    <p style={{color:'black'}}>Two-Wheeler Free: {company.twoWheeler.free }</p>
-                    <p style={{color:'black'}}>Four-Wheeler Free: {company.fourWheeler.free}</p>
-                   
+                    <p style={{ color: 'black' }}>
+                      Two-Wheeler Free: {company.twoWheeler.free}
+                    </p>
+                    <p style={{ color: 'black' }}>
+                      Four-Wheeler Free: {company.fourWheeler.free}
+                    </p>
                   </div>
                 </div>
               </li>
             ))}
           </ul>
-          {/* <div>Total Reservations: {getTotalReservations && getTotalReservations} </div> */}
-
         </div>
       </div>
     </div>

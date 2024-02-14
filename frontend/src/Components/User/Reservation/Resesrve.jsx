@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import { selectUser } from '../../../Features/setUser';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const Reserve = () => {
   const [reservationError, setReservationError] = useState(null);
@@ -16,6 +16,7 @@ const Reserve = () => {
   const location = useLocation();
   const companyNameFromSearch = location.state?.companyName || '';
   const vehicleTypes = ['Two Wheeler', 'Four Wheeler'];
+  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
@@ -81,6 +82,7 @@ const Reserve = () => {
         console.log('Payment success:', response);
         createReservation(values);
         toast.success('Reservation successfully saved');
+        navigate('/paymentresdirect');
         formik.resetForm();
       },
       prefill: {

@@ -140,7 +140,7 @@ const razorpay = new Razorpay({
 });
 const createPaymentAndReservation = async (req, res) => {
   try {
-    // Destructure the request body
+    
     const {
       amount,
       companyName,
@@ -212,7 +212,11 @@ const createPaymentAndReservation = async (req, res) => {
       amount: amount,
     });
     await reservation.save();
-
+    const updateKey = `.${vehicleType.toLowerCase()}.booked`;
+    await Slot.updateOne(
+      { companyName },
+      { $inc: { [updateKey]: 1 } } 
+    );
     res.json({
       message: 'Payment and Reservation created successfully',
       reservation,
@@ -287,23 +291,6 @@ const makeReservation = async (req, res) => {
     res.status(500).json({ error: 'An error occurred while making the reservation.' });
   }
 };
-
-// const makeReservation = async (req, res) => {
-//   const { vehicleType } = req.body;
-//   console.log('Received vehicleType:', vehicleType);
-//   try {
-//     // Check if vehicleType is valid
-//     if (vehicleType !== 'twoWheeler' && vehicleType !== 'fourWheeler') {
-//       throw new Error('Invalid vehicle type');
-//     }
-//     // Update slot's booked count based on the vehicle type
-//     await Slot.updateFreeSpace(vehicleType);
-//     res.status(200).json({ message: 'Reservation made successfully.' });
-//   } catch (error) {
-//     console.error('Error making reservation:', error);
-//     res.status(500).json({ error: 'An error occurred while making the reservation.' });
-//   }
-// };
 
 
 module.exports = {

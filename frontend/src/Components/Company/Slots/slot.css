@@ -49,10 +49,9 @@
 
 .company-slots-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
   gap: 20px; 
-  position: relative;
-  left: 500px;
+  padding: 20px; /* Add padding to the container */
 }
 
 .slot-item {
@@ -102,4 +101,10 @@
 .cancel-button:hover,
 .delete-button:hover {
   background-color: #bd2130;
+}
+
+@media screen and (max-width: 768px) {
+  .company-slots-container {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Adjust column width for smaller screens */
+  }
 }

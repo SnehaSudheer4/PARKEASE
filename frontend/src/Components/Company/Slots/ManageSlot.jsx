@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useSelector } from 'react-redux';
 import { selectCompany } from '../../../Features/setCompany';
 import './slot.css';
+import { ToastContainer, toast } from 'react-toastify';
 
 const ManageSlot = ({ slotToEdit }) => {
   const [formattedSlotData, setFormattedSlotData] = useState(null);
@@ -42,8 +43,9 @@ const ManageSlot = ({ slotToEdit }) => {
           console.log('Slot updated successfully');
         } else {
           await createSlot(slotData);
-          console.log('Slots successfully added');
+          toast.success('Slots successfully added');
         }
+        formik.resetForm();
       } catch (error) {
         console.error('Error in processing data:', error.message);
       }
@@ -130,6 +132,7 @@ const ManageSlot = ({ slotToEdit }) => {
           </button>
         </div>
       </form>
+      <ToastContainer />
     </div>
   );
 };

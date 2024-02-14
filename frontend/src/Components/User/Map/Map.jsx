@@ -4,8 +4,11 @@ const Map = () => {
   return (
     <div>
      <div className='map-section'>
+     
         <div className='gmap-frame'>
-          <h2>Location</h2>
+          <h2>You Can Search Location Here..</h2><br/>
+          
+          
           <iframe
             title="Tourism Map"
             width="50%"

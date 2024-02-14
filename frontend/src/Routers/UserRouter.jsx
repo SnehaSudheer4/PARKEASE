@@ -12,6 +12,7 @@ import UserReservePage from '../Pages/User/UserReservePage';
 import UserView from '../Pages/User/UserView';
 import Payment from '../Components/User/Payment/Payment';
 import MapPage from '../Pages/User/MapPage';
+import PaymentRedirect from '../Components/User/Reservation/PaymentRedirect';
 
 function UserRouter() {
   return (
@@ -28,6 +29,7 @@ function UserRouter() {
         <Route path='/Payment' element={<Payment/>}/>
         <Route path='/viewuser' element={<UserView/>}/>
         <Route path='/Map' element={<MapPage/>}/>
+        <Route path='/paymentresdirect' element={<PaymentRedirect/>}/>
       </Routes>
     </div>
   );
